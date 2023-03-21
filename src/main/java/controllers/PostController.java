@@ -4,6 +4,7 @@ import model.Post;
 import org.springframework.web.bind.annotation.*;
 import requests.PostCreateRequest;
 import requests.PostUpdateRequest;
+import responses.PostResponse;
 import services.PostService;
 
 import java.util.List;
@@ -20,7 +21,7 @@ public class PostController {
     }
 
     @GetMapping
-    public List<Post> getAllPost(@RequestParam Optional<Long> userId) {
+    public List<PostResponse> getAllPost(@RequestParam Optional<Long> userId) {
         return postService.getAllPost(userId);
     }
 

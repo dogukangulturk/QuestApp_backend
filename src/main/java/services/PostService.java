@@ -6,9 +6,11 @@ import org.springframework.stereotype.Service;
 import repository.PostRepository;
 import requests.PostCreateRequest;
 import requests.PostUpdateRequest;
+import responses.PostResponse;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class PostService {
@@ -21,10 +23,15 @@ public class PostService {
         this.userService = userService;
     }
 
-    public List<Post> getAllPost(Optional<Long> userId) {
-        if (userId.isPresent())
-            return postRepository.findByUserId(userId.get());
-        return postRepository.findAll();
+    public List<PostResponse> getAllPost(Optional<Long> userId) {
+        List<Post> list;
+        if (userId.isPresent()){
+            list = postRepository.findByUserId(userId.get());
+        }else {
+            list = postRepository.findAll();
+        }
+        return list.stream().map(post -> new PostResponse(post)).collect(Collectors.toList());
+
     }
 
     public Post getOnePostById(Long postId) {
