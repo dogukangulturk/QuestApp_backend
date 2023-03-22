@@ -1,11 +1,13 @@
 package services;
 
+import model.Like;
 import model.Post;
 import model.User;
 import org.springframework.stereotype.Service;
 import repository.PostRepository;
 import requests.PostCreateRequest;
 import requests.PostUpdateRequest;
+import responses.LikeResponse;
 import responses.PostResponse;
 
 import java.util.List;
@@ -16,11 +18,16 @@ import java.util.stream.Collectors;
 public class PostService {
 
     private PostRepository postRepository;
+    private LikeService likeService;
     private UserService userService;
 
     public PostService(PostRepository postRepository, UserService userService) {
         this.postRepository = postRepository;
         this.userService = userService;
+    }
+
+    public void setLikeService(LikeService likeService) {
+        this.likeService = likeService;
     }
 
     public List<PostResponse> getAllPost(Optional<Long> userId) {
@@ -30,8 +37,9 @@ public class PostService {
         }else {
             list = postRepository.findAll();
         }
-        return list.stream().map(post -> new PostResponse(post)).collect(Collectors.toList());
-
+        return list.stream().map(post -> {
+            List<LikeResponse> likes = likeService.getAllLikesWithParam(null, Optional.of(post.getId()));
+            return new PostResponse(post, likes);}).collect(Collectors.toList());
     }
 
     public Post getOnePostById(Long postId) {
