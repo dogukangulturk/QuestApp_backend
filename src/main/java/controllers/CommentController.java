@@ -2,8 +2,8 @@ package controllers;
 
 import model.Comment;
 import org.springframework.web.bind.annotation.*;
-import requests.CommentCreateRequest;
-import requests.CommentUpdateRequest;
+import dto.requests.CommentCreateRequest;
+import dto.requests.CommentUpdateRequest;
 import services.CommentService;
 
 import java.util.List;

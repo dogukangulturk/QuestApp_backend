@@ -2,7 +2,6 @@ package repository;
 
 import model.Like;
 import org.springframework.data.jpa.repository.JpaRepository;
-import responses.LikeResponse;
 
 import java.util.List;
 

@@ -5,8 +5,8 @@ import model.Post;
 import model.User;
 import org.springframework.stereotype.Service;
 import repository.CommentRepository;
-import requests.CommentCreateRequest;
-import requests.CommentUpdateRequest;
+import dto.requests.CommentCreateRequest;
+import dto.requests.CommentUpdateRequest;
 
 import java.util.List;
 import java.util.Optional;

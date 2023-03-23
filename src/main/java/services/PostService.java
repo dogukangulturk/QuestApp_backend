@@ -1,14 +1,13 @@
 package services;
 
-import model.Like;
 import model.Post;
 import model.User;
 import org.springframework.stereotype.Service;
 import repository.PostRepository;
-import requests.PostCreateRequest;
-import requests.PostUpdateRequest;
-import responses.LikeResponse;
-import responses.PostResponse;
+import dto.requests.PostCreateRequest;
+import dto.requests.PostUpdateRequest;
+import dto.responses.LikeResponse;
+import dto.responses.PostResponse;
 
 import java.util.List;
 import java.util.Optional;
@@ -17,9 +16,9 @@ import java.util.stream.Collectors;
 @Service
 public class PostService {
 
-    private PostRepository postRepository;
+    private final PostRepository postRepository;
     private LikeService likeService;
-    private UserService userService;
+    private final UserService userService;
 
     public PostService(PostRepository postRepository, UserService userService) {
         this.postRepository = postRepository;

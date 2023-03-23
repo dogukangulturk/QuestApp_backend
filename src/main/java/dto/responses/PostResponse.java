@@ -1,5 +1,6 @@
-package responses;
+package dto.responses;
 
+import dto.responses.LikeResponse;
 import lombok.Data;
 import model.Post;
 

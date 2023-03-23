@@ -5,8 +5,8 @@ import model.Post;
 import model.User;
 import org.springframework.stereotype.Service;
 import repository.LikeRepository;
-import requests.LikeCreateRequest;
-import responses.LikeResponse;
+import dto.requests.LikeCreateRequest;
+import dto.responses.LikeResponse;
 
 import java.util.List;
 import java.util.Optional;
@@ -15,9 +15,9 @@ import java.util.stream.Collectors;
 @Service
 public class LikeService {
 
-    private LikeRepository likeRepository;
-    private UserService userService;
-    private PostService postService;
+    private final LikeRepository likeRepository;
+    private final UserService userService;
+    private final PostService postService;
 
     public LikeService(LikeRepository likeRepository, UserService userService,
                        PostService postService) {

@@ -2,8 +2,8 @@ package controllers;
 
 import model.Like;
 import org.springframework.web.bind.annotation.*;
-import requests.LikeCreateRequest;
-import responses.LikeResponse;
+import dto.requests.LikeCreateRequest;
+import dto.responses.LikeResponse;
 import services.LikeService;
 
 import java.util.List;

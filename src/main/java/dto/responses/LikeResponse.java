@@ -1,4 +1,4 @@
-package responses;
+package dto.responses;
 import lombok.Data;
 import model.Like;
 

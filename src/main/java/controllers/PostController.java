@@ -2,9 +2,9 @@ package controllers;
 
 import model.Post;
 import org.springframework.web.bind.annotation.*;
-import requests.PostCreateRequest;
-import requests.PostUpdateRequest;
-import responses.PostResponse;
+import dto.requests.PostCreateRequest;
+import dto.requests.PostUpdateRequest;
+import dto.responses.PostResponse;
 import services.PostService;
 
 import java.util.List;
