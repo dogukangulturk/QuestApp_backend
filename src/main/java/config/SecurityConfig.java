@@ -23,8 +23,8 @@ import services.UserDetailsServiceImplementation;
 @EnableWebSecurity
 public class SecurityConfig {
 
-    private UserDetailsServiceImplementation userDetailsService;
-    private JwtAuthenticationEntryPoint handler;
+    private final UserDetailsServiceImplementation userDetailsService;
+    private final JwtAuthenticationEntryPoint handler;
 
     public SecurityConfig(UserDetailsServiceImplementation userDetailsService, JwtAuthenticationEntryPoint handler) {
         this.userDetailsService = userDetailsService;
@@ -83,5 +83,4 @@ public class SecurityConfig {
         httpSecurity.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
         return httpSecurity.build();
     }
-
 }
