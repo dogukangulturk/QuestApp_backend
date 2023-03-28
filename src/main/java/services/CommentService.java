@@ -1,5 +1,6 @@
 package services;
 
+import dto.responses.CommentResponse;
 import model.Comment;
 import model.Post;
 import model.User;
@@ -11,6 +12,7 @@ import dto.requests.CommentUpdateRequest;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class CommentService {
@@ -19,23 +21,27 @@ public class CommentService {
     private UserService userService;
     private PostService postService;
 
-    CommentService(CommentRepository commentRepository, UserService userService, PostService postService){
+    CommentService(CommentRepository commentRepository, UserService userService, PostService postService) {
         this.commentRepository = commentRepository;
         this.userService = userService;
         this.postService = postService;
     }
 
-    public List<Comment> getAllCommentWithParam(Optional<Long> userId,
-                                                Optional<Long> postId) {
-        if (userId.isPresent() && postId.isPresent()){
-            return commentRepository.findByUserIdAndPostId(userId.get(), postId.get());
+    public List<CommentResponse> getAllCommentWithParam(Optional<Long> userId, Optional<Long> postId) {
+
+        List<Comment> comments;
+
+        if (userId.isPresent() && postId.isPresent()) {
+            comments = commentRepository.findByUserIdAndPostId(userId.get(), postId.get());
         } else if (userId.isPresent()) {
-            return commentRepository.findByUserId(userId.get());
+            comments = commentRepository.findByUserId(userId.get());
         } else if (postId.isPresent()) {
-            return commentRepository.findByPostId(postId.get());
-        }else {
-            return commentRepository.findAll();
+            comments = commentRepository.findByPostId(postId.get());
+        } else {
+            comments = commentRepository.findAll();
         }
+
+        return comments.stream().map(comment -> new CommentResponse(comment)).collect(Collectors.toList());
     }
 
     public Comment getOneCommentById(Long commentId) {
@@ -46,7 +52,7 @@ public class CommentService {
         User user = userService.getOneUserById(commentCreateRequest.getUserId());
         Post post = postService.getOnePostById(commentCreateRequest.getPostId());
 
-        if (user != null && post != null){
+        if (user != null && post != null) {
             Comment commentToSave = new Comment();
             commentToSave.setId(commentCreateRequest.getId());
             commentToSave.setPost(post);
@@ -54,17 +60,17 @@ public class CommentService {
             commentToSave.setText(commentCreateRequest.getText());
             commentToSave.setCreateDate(new Date());
             return commentRepository.save(commentToSave);
-        }else
+        } else
             return null;
     }
 
     public Comment updateOneCommentById(Long commentId, CommentUpdateRequest commentUpdateRequest) {
-        Optional <Comment> comment = commentRepository.findById(commentId);
-        if (comment.isPresent()){
+        Optional<Comment> comment = commentRepository.findById(commentId);
+        if (comment.isPresent()) {
             Comment commentToUpdate = comment.get();
             commentToUpdate.setText(commentUpdateRequest.getText());
             return commentRepository.save(commentToUpdate);
-        }else
+        } else
             return null;
     }
 
