@@ -9,6 +9,7 @@ import dto.requests.PostUpdateRequest;
 import dto.responses.LikeResponse;
 import dto.responses.PostResponse;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -45,6 +46,12 @@ public class PostService {
         return postRepository.findById(postId).orElse(null);
     }
 
+    public PostResponse getOnePostByIdWithLikes(Long postId) {
+        Post post = postRepository.findById(postId).orElse(null);
+        List<LikeResponse> likes = likeService.getAllLikesWithParam(null, Optional.of(postId));
+        return new PostResponse(post, likes);
+    }
+
     public Post createOnePost(PostCreateRequest newPostRequest) {
         User user = userService.getOneUserById(newPostRequest.getUserId());
         if (user == null)
@@ -54,6 +61,7 @@ public class PostService {
         toSave.setText(newPostRequest.getText());
         toSave.setTitle(newPostRequest.getTitle());
         toSave.setUser(user);
+        toSave.setCreateDate(new Date());
         return postRepository.save(toSave);
     }
 
