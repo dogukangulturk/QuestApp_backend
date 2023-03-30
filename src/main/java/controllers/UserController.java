@@ -1,7 +1,9 @@
 package controllers;
 
 import dto.responses.UserResponse;
+import exceptions.UserNotFoundException;
 import model.User;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import services.UserService;
 
@@ -29,7 +31,11 @@ public class UserController {
 
     @GetMapping("/{userId}")
     public UserResponse getOneUser(@PathVariable Long userId) {
-        return new UserResponse(userService.getOneUserById(userId));
+        User user = userService.getOneUserById(userId);
+        if (user == null) {
+            throw new UserNotFoundException("User Not Found!");
+        }
+        return new UserResponse(user);
     }
 
     @PutMapping("/{userId}")
@@ -45,5 +51,11 @@ public class UserController {
     @GetMapping("/activity/{userId}")
     public List<Object> getUserActivity(@PathVariable Long userId){
         return userService.getUserActivity(userId);
+    }
+
+    @ExceptionHandler(UserNotFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    private void handleUserNotFound(){
+        
     }
 }
